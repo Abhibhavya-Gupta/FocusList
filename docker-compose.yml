@@ -1,0 +1,40 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: dayline
+      DB_USER: dayline
+      DB_PASS: dayline
+      JWT_SECRET: ${JWT_SECRET:-local-only-insecure-secret-please-change}
+      FRONTEND_ORIGIN: "*"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      AI_PROVIDER: ${AI_PROVIDER:-auto}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: dayline
+      MYSQL_USER: dayline
+      MYSQL_PASSWORD: dayline
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "${MYSQL_PORT:-3307}:3306"
+    volumes:
+      - dayline_mysql:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  dayline_mysql:

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dayline — get today under control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+
+  <section id="auth-view" class="auth-wrap">
+    <div class="auth-card">
+      <p class="eyebrow">Dayline</p>
+      <h1>A quieter to-do list that actually plans with you.</h1>
+      <p class="lede">Write what is on your mind. Dayline sorts the date, priority, and next step so you can start instead of organizing.</p>
+      <form id="auth-form">
+        <label class="name-field hidden">Name<input name="name" type="text" minlength="2" maxlength="80" autocomplete="name" placeholder="Your name" /></label>
+        <label>Email<input name="email" type="email" required maxlength="190" autocomplete="email" placeholder="you@email.com" /></label>
+        <label>Password<input name="password" type="password" required minlength="6" maxlength="72" autocomplete="current-password" placeholder="6 to 72 characters" /></label>
+        <button type="submit" class="btn primary" id="auth-submit">Sign in</button>
+      </form>
+      <p class="switch">New here? <button type="button" class="link" id="toggle-auth">Create an account</button></p>
+      <p class="form-error" id="auth-error" role="alert" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="app-view" class="app hidden">
+    <aside class="rail">
+      <div>
+        <p class="logo">Dayline</p>
+        <p class="hello" id="hello"></p>
+      </div>
+      <nav class="filters">
+        <button class="filter on" data-filter="today">Today</button>
+        <button class="filter" data-filter="open">Open</button>
+        <button class="filter" data-filter="doing">In motion</button>
+        <button class="filter" data-filter="overdue">Overdue</button>
+        <button class="filter" data-filter="done">Done</button>
+        <button class="filter" data-filter="all">Everything</button>
+      </nav>
+      <div class="cats" id="cats"></div>
+      <button class="btn ghost" id="logout">Sign out</button>
+    </aside>
+
+    <main class="stage">
+      <header class="top">
+        <div>
+          <h2 id="date-line"></h2>
+          <p class="stats" id="stats"></p>
+        </div>
+        <button class="btn saffron" id="plan-btn">Plan my day</button>
+      </header>
+
+      <form class="composer" id="composer">
+        <input id="quick-add" type="text" maxlength="255" placeholder="Try: Call dentist tomorrow 4pm high" autocomplete="off" />
+        <button class="btn primary" type="submit">Add</button>
+      </form>
+      <p class="hint">Plain English works. Dayline reads dates, time, and urgency even without an API key.</p>
+      <p class="form-error" id="add-error" role="alert" aria-live="polite"></p>
+      <p class="form-status" id="add-status" role="status" aria-live="polite"></p>
+      <div id="list" class="list"></div>
+    </main>
+
+    <aside class="coach" id="coach">
+      <p class="eyebrow">Coach</p>
+      <div id="coach-body">
+        <p>Ask Dayline to sketch a day, or break a heavy task into steps you can actually start.</p>
+      </div>
+      <button type="button" class="btn ghost" id="suggest-btn">Suggest a next step</button>
+    </aside>
+  </section>
+
+  <div class="modal hidden" id="modal">
+    <form class="modal-card" id="edit-form">
+      <h3>Edit task</h3>
+      <input type="hidden" name="id" />
+      <label>Title<input name="title" required /></label>
+      <label>Notes<textarea name="notes" rows="3"></textarea></label>
+      <div class="row">
+        <label>Category<input name="category" /></label>
+        <label>Priority
+          <select name="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Due date<input name="due_date" type="date" /></label>
+        <label>Time<input name="due_time" type="time" /></label>
+      </div>
+      <label>Status
+        <select name="status">
+          <option value="open">Open</option>
+          <option value="doing">In motion</option>
+          <option value="done">Done</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" id="cancel-edit">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+      <p class="form-error" id="edit-error" role="alert" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="./js/config.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
